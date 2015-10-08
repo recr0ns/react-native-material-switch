@@ -56,7 +56,7 @@ var Application = React.createClass({
 ### Live example
 ```sh
 git clone git@github.com:Recr0ns/react-native-material-switch.git
-cd react-native-material-switc/examples
+cd react-native-material-switch/examples
 npm install
 open ios/switchExample.xcodeproj
 ```
