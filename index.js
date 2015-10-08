@@ -12,7 +12,6 @@ var MaterialSwitch = React.createClass({
 
   getDefaultProps() {
     return {
-      style: {},
       active: false,
       inactiveButtonColor: '#2196F3',
       inactiveButtonPressedColor: '#42A5F5',
@@ -61,6 +60,8 @@ var MaterialSwitch = React.createClass({
         this.start.x0 = gestureState.x0;
         this.start.pos = this.state.position._value;
         this.start.moved = false;
+        this.start.state = this.state.state;
+        this.start.stateChanged = false;
       },
       onPanResponderMove: (evt, gestureState) => {
         if (!this.props.enableSlide) return;
@@ -89,13 +90,21 @@ var MaterialSwitch = React.createClass({
           }
         }
         var currentPos = this.state.position._value;
-        this.onSwipe(currentPos, this.start.pos, ()=>{this.setState({state: true})}, ()=>{this.setState({state: false})});
+        this.onSwipe(currentPos, this.start.pos,
+          () => {
+            if (!this.start.state) this.start.stateChanged = true;
+            this.setState({state: true})
+          },
+          ()=>{
+            if (this.start.state) this.start.stateChanged = true;
+            this.setState({state: false})
+          });
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
         this.setState({pressed: false});
         var currentPos = this.state.position._value;
-        if (!this.start.moved || Math.abs(currentPos-this.start.pos)<5) {
+        if (!this.start.moved || (Math.abs(currentPos-this.start.pos)<5 && !this.start.stateChanged)) {
           this.toggle();
           return;
         }
@@ -149,18 +158,23 @@ var MaterialSwitch = React.createClass({
   },
 
   changeState(state) {
-    var callHandlers = this.state.state != state;
+    var callHandlers = this.start.state != state;
     setTimeout(() => {
       this.setState({state : state});
       if (callHandlers) {
-        if (state) {
-          this.props.onActivate();
-        } else {
-          this.props.onDeactivate();
-        }
-        this.props.onChangeState(state);
+        this.callback();
       }
     }, this.props.switchAnimationTime/2);
+  },
+
+  callback() {
+    var state = this.state.state;
+    if (state) {
+      this.props.onActivate();
+    } else {
+      this.props.onDeactivate();
+    }
+    this.props.onChangeState(state);
   },
 
   toggle() {
@@ -175,7 +189,7 @@ var MaterialSwitch = React.createClass({
     var doublePadding = this.padding*2-2;
     var halfPadding = doublePadding/2;
     return (
-      <View style={[this.props.style, {padding: this.padding, position: 'relative'}]}>
+      <View style={{padding: this.padding, position: 'relative'}}>
         <View style={{
             backgroundColor: this.state.state ? this.props.activeBackgroundColor : this.props.inactiveBackgroundColor,
             height: this.props.switchHeight,
