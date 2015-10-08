@@ -12,6 +12,7 @@ var MaterialSwitch = React.createClass({
 
   getDefaultProps() {
     return {
+      style: {},
       active: false,
       inactiveButtonColor: '#2196F3',
       inactiveButtonPressedColor: '#42A5F5',
@@ -174,7 +175,7 @@ var MaterialSwitch = React.createClass({
     var doublePadding = this.padding*2-2;
     var halfPadding = doublePadding/2;
     return (
-      <View style={{padding: this.padding, position: 'relative'}}>
+      <View style={[this.props.style, {padding: this.padding, position: 'relative'}]}>
         <View style={{
             backgroundColor: this.state.state ? this.props.activeBackgroundColor : this.props.inactiveBackgroundColor,
             height: this.props.switchHeight,
