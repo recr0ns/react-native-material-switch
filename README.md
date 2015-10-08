@@ -54,8 +54,6 @@ var Application = React.createClass({
 * `onChangeState`: Sends the current state of switch.
 
 ### Live example
-Try the included `RCTYouTubeExample`:
-
 ```sh
 git clone git@github.com:Recr0ns/react-native-material-switch.git
 cd react-native-material-switc/examples
