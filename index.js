@@ -13,6 +13,7 @@ var MaterialSwitch = React.createClass({
   getDefaultProps() {
     return {
       active: false,
+      styles: {},
       inactiveButtonColor: '#2196F3',
       inactiveButtonPressedColor: '#42A5F5',
       activeButtonColor: '#FAFAFA',
