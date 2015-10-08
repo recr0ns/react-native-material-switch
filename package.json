@@ -1,0 +1,30 @@
+{
+  "name": "react-native-material-switch",
+  "version": "0.0.1",
+  "description": "Customizable material style switch",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Recr0ns/react-native-material-switch.git"
+  },
+  "keywords": [
+    "react-native",
+    "react-component",
+    "ios",
+    "switch",
+    "material"
+  ],
+  "author": {
+    "name": "Eduard Tishkin",
+    "email": "recr0ns@gmail.com",
+    "url": "https://github.com/recr0ns"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/recr0ns/react-native-material-switch/issues"
+  },
+  "homepage": "https://github.com/recr0ns/react-native-material-switch",
+  "peerDependencies": {
+    "react-native": ">= 0.9.0 || 0.11.0-rc"
+  }
+}
