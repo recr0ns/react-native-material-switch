@@ -18,7 +18,7 @@ npm install react-native-material-switch
 
 ### Usage example
 ```javascript
-var Switch = require('react-native-side-menu');
+var Switch = require('react-native-material-switch');
 
 var Application = React.createClass({
   render: function() {
