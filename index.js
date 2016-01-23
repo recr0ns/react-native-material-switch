@@ -190,14 +190,17 @@ var MaterialSwitch = React.createClass({
     var doublePadding = this.padding*2-2;
     var halfPadding = doublePadding/2;
     return (
-      <View style={[{padding: this.padding, position: 'relative'}, this.props.style]}>
-        <View style={{
+      <View
+        {...this._panResponder.panHandlers}
+        style={{padding: this.padding, position: 'relative'}}>
+        <View
+          style={{
             backgroundColor: this.state.state ? this.props.activeBackgroundColor : this.props.inactiveBackgroundColor,
             height: this.props.switchHeight,
             width: this.props.switchWidth,
             borderRadius: this.props.switchHeight/2,
           }}/>
-        <TouchableHighlight underlayColor='transparent' activeOpacity={1} onPress={() => { this.toggle(); }} style={{
+        <TouchableHighlight underlayColor='transparent' activeOpacity={1} style={{
             height: Math.max(this.props.buttonRadius*2+doublePadding, this.props.switchHeight+doublePadding),
             width: this.props.switchWidth+doublePadding,
             position: 'absolute',
@@ -221,7 +224,6 @@ var MaterialSwitch = React.createClass({
               transform: [{ translateX: this.state.position }]
             },
             this.props.buttonShadow]}
-            {...this._panResponder.panHandlers}
           >
             {this.props.buttonContent}
           </Animated.View>
