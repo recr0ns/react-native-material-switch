@@ -1,11 +1,12 @@
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var {
   PanResponder,
   View,
   TouchableHighlight,
   Animated,
-} = React;
+} = ReactNative;
 
 var MaterialSwitch = React.createClass({
   padding: 2,
