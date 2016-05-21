@@ -1,11 +1,12 @@
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 
 var {
   PanResponder,
   View,
   TouchableHighlight,
   Animated,
-} = React;
+} = ReactNative;
 
 var MaterialSwitch = React.createClass({
   padding: 2,
@@ -57,6 +58,8 @@ var MaterialSwitch = React.createClass({
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
+        if (!this.props.enableSlide) return;
+
         this.setState({pressed: true});
         this.start.x0 = gestureState.x0;
         this.start.pos = this.state.position._value;
@@ -179,6 +182,8 @@ var MaterialSwitch = React.createClass({
   },
 
   toggle() {
+    if (!this.props.enableSlide) return;
+
     if (this.state.state) {
       this.deactivate();
     } else {
