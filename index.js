@@ -9,7 +9,7 @@ var {
 } = ReactNative;
 
 var MaterialSwitch = React.createClass({
-  padding: 2,
+  padding: 8,
 
   getDefaultProps() {
     return {
@@ -20,6 +20,7 @@ var MaterialSwitch = React.createClass({
       activeButtonColor: '#FAFAFA',
       activeButtonPressedColor: '#F5F5F5',
       buttonShadow: {
+        elevation: 3,
         shadowColor: '#000',
         shadowOpacity: 0.5,
         shadowRadius: 1,
