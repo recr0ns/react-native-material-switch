@@ -146,7 +146,7 @@ var MaterialSwitch = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps){
-    if(this.state.active !== nextProps.active){
+    if(this.state.state !== nextProps.active){
       nextProps.active ? this.activate() : this.deactivate()
     }
   },
