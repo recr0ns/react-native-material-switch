@@ -143,7 +143,7 @@ var MaterialSwitch = React.createClass({
     Animated.timing(
       this.state.position,
       {
-        toValue: this.state.width,
+        toValue: this.state.width -5,
         duration: this.props.switchAnimationTime,
       }
     ).start();
@@ -154,7 +154,7 @@ var MaterialSwitch = React.createClass({
     Animated.timing(
       this.state.position,
       {
-        toValue: 0,
+        toValue: 5,
         duration: this.props.switchAnimationTime,
       }
     ).start();
