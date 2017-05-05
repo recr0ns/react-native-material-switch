@@ -31,6 +31,7 @@ var MaterialSwitch = React.createClass({
       switchWidth: 40,
       switchHeight: 20,
       buttonContent: null,
+      buttonOffset: 0,
       enableSlide: true,
       switchAnimationTime: 200,
       onActivate: function() {},
@@ -40,11 +41,12 @@ var MaterialSwitch = React.createClass({
   },
 
   getInitialState() {
-    var w = this.props.switchWidth - Math.min(this.props.switchHeight, this.props.buttonRadius*2);
+    var w = (this.props.switchWidth - Math.min(this.props.switchHeight, this.props.buttonRadius*2) - this.props.buttonOffset);
+
     return {
       width: w,
       state: this.props.active,
-      position: new Animated.Value(this.props.active? w : 0),
+      position: new Animated.Value(this.props.active? w : this.props.buttonOffset),
     };
   },
 
@@ -155,7 +157,7 @@ var MaterialSwitch = React.createClass({
     Animated.timing(
       this.state.position,
       {
-        toValue: 0,
+        toValue: this.props.buttonOffset,
         duration: this.props.switchAnimationTime,
         useNativeDriver: true,
       }
