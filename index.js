@@ -9,7 +9,28 @@ var {
 } = ReactNative;
 
 var MaterialSwitch = React.createClass({
-  padding: 2,
+  padding: 8,
+
+  propTypes: {
+    active: React.PropTypes.bool,
+    style: View.propTypes.style,
+    inactiveButtonColor: React.PropTypes.string,
+    inactiveButtonPressedColor: React.PropTypes.string,
+    activeButtonColor: React.PropTypes.string,
+    activeButtonPressedColor: React.PropTypes.string,
+    buttonShadow: View.propTypes.style,
+    activeBackgroundColor: React.PropTypes.string,
+    inactiveBackgroundColor: React.PropTypes.string,
+    buttonRadius: React.PropTypes.number,
+    switchWidth: React.PropTypes.number,
+    switchHeight: React.PropTypes.number,
+    buttonContent: React.PropTypes.element,
+    enableSlide: React.PropTypes.bool,
+    switchAnimationTime: React.PropTypes.number,
+    onActivate: React.PropTypes.func,
+    onDeactivate: React.PropTypes.func,
+    onChangeState: React.PropTypes.func,
+  },
 
   getDefaultProps() {
     return {
@@ -20,6 +41,7 @@ var MaterialSwitch = React.createClass({
       activeButtonColor: '#FAFAFA',
       activeButtonPressedColor: '#F5F5F5',
       buttonShadow: {
+        elevation: 3,
         shadowColor: '#000',
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -123,6 +145,12 @@ var MaterialSwitch = React.createClass({
       },
       onShouldBlockNativeResponder: (evt, gestureState) => true,
     });
+  },
+
+  componentWillReceiveProps: function(nextProps){
+    if(this.state.state !== nextProps.active){
+      nextProps.active ? this.activate() : this.deactivate()
+    }
   },
 
   onSwipe(currentPosition, startingPosition, onChange, onTerminate) {
