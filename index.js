@@ -229,7 +229,7 @@ var MaterialSwitch = React.createClass({
     return (
       <View
         {...this._panResponder.panHandlers}
-        style={{padding: this.padding, position: 'relative'}}>
+        style={[{padding: this.padding, position: 'relative'}, this.props.style]}>
         <View
           style={{
             backgroundColor: this.state.state ? this.props.activeBackgroundColor : this.props.inactiveBackgroundColor,
