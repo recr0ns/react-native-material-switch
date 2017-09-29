@@ -1,5 +1,7 @@
 var React = require('react');
 var ReactNative = require('react-native');
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
 
 var {
   PanResponder,
@@ -8,28 +10,28 @@ var {
   Animated,
 } = ReactNative;
 
-var MaterialSwitch = React.createClass({
+var MaterialSwitch = createReactClass({
   padding: 8,
 
   propTypes: {
-    active: React.PropTypes.bool,
+    active: PropTypes.bool,
     style: View.propTypes.style,
-    inactiveButtonColor: React.PropTypes.string,
-    inactiveButtonPressedColor: React.PropTypes.string,
-    activeButtonColor: React.PropTypes.string,
-    activeButtonPressedColor: React.PropTypes.string,
+    inactiveButtonColor: PropTypes.string,
+    inactiveButtonPressedColor: PropTypes.string,
+    activeButtonColor: PropTypes.string,
+    activeButtonPressedColor: PropTypes.string,
     buttonShadow: View.propTypes.style,
-    activeBackgroundColor: React.PropTypes.string,
-    inactiveBackgroundColor: React.PropTypes.string,
-    buttonRadius: React.PropTypes.number,
-    switchWidth: React.PropTypes.number,
-    switchHeight: React.PropTypes.number,
-    buttonContent: React.PropTypes.element,
-    enableSlide: React.PropTypes.bool,
-    switchAnimationTime: React.PropTypes.number,
-    onActivate: React.PropTypes.func,
-    onDeactivate: React.PropTypes.func,
-    onChangeState: React.PropTypes.func,
+    activeBackgroundColor: PropTypes.string,
+    inactiveBackgroundColor: PropTypes.string,
+    buttonRadius: PropTypes.number,
+    switchWidth: PropTypes.number,
+    switchHeight: PropTypes.number,
+    buttonContent: PropTypes.element,
+    enableSlide: PropTypes.bool,
+    switchAnimationTime: PropTypes.number,
+    onActivate: PropTypes.func,
+    onDeactivate: PropTypes.func,
+    onChangeState: PropTypes.func,
   },
 
   getDefaultProps() {
