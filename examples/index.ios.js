@@ -1,20 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
-var React = require('react-native');
-var Switch = require('react-native-material-switch');
-var {
+import React, { Component } from 'react';
+import {
   AppRegistry,
   StyleSheet,
   Text,
-  View,
-} = React;
+  View
+} from 'react-native';
+import Switch from 'react-native-material-switch';
 
-var switchExample = React.createClass({
-  render: function() {
+export default class examples extends Component {
+  render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{'Material Switch'}</Text>
@@ -62,9 +56,9 @@ var switchExample = React.createClass({
       </View>
     );
   }
-});
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -86,4 +80,4 @@ var styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('switchExample', () => switchExample);
+AppRegistry.registerComponent('examples', () => examples);
