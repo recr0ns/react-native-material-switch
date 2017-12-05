@@ -8,6 +8,7 @@ var {
   View,
   TouchableHighlight,
   Animated,
+  ViewPropTypes,
 } = ReactNative;
 
 var MaterialSwitch = createReactClass({
@@ -15,12 +16,12 @@ var MaterialSwitch = createReactClass({
 
   propTypes: {
     active: PropTypes.bool,
-    style: View.propTypes.style,
+    style: ViewPropTypes.style,
     inactiveButtonColor: PropTypes.string,
     inactiveButtonPressedColor: PropTypes.string,
     activeButtonColor: PropTypes.string,
     activeButtonPressedColor: PropTypes.string,
-    buttonShadow: View.propTypes.style,
+    buttonShadow: ViewPropTypes.style,
     activeBackgroundColor: PropTypes.string,
     inactiveBackgroundColor: PropTypes.string,
     buttonRadius: PropTypes.number,
