@@ -29,6 +29,7 @@ var MaterialSwitch = createReactClass({
     switchHeight: PropTypes.number,
     buttonContent: PropTypes.element,
     enableSlide: PropTypes.bool,
+    enableSlideDragging: PropTypes.bool,
     switchAnimationTime: PropTypes.number,
     onActivate: PropTypes.func,
     onDeactivate: PropTypes.func,
@@ -58,6 +59,7 @@ var MaterialSwitch = createReactClass({
       buttonContent: null,
       buttonOffset: 0,
       enableSlide: true,
+      enableSlideDragging: true,
       switchAnimationTime: 200,
       onActivate: function() {},
       onDeactivate: function() {},
@@ -229,9 +231,13 @@ var MaterialSwitch = createReactClass({
   render() {
     var doublePadding = this.padding*2-2;
     var halfPadding = doublePadding/2;
+
+    let panHandlers = this.props.enableSlideDragging ? this._panResponder.panHandlers : null
+    let pressHandlers = !this.props.enableSlideDragging ? { onPress: () => this.toggle() } : null
+
     return (
       <View
-        {...this._panResponder.panHandlers}
+        {...panHandlers}
         style={[{padding: this.padding, position: 'relative'}, this.props.style]}>
         <View
           style={{
@@ -240,7 +246,7 @@ var MaterialSwitch = createReactClass({
             width: this.props.switchWidth,
             borderRadius: this.props.switchHeight/2,
           }}/>
-        <TouchableHighlight underlayColor='transparent' activeOpacity={1} style={{
+        <TouchableHighlight {...pressHandlers} underlayColor='transparent' activeOpacity={1} style={{
             height: Math.max(this.props.buttonRadius*2+doublePadding, this.props.switchHeight+doublePadding),
             width: this.props.switchWidth+doublePadding,
             position: 'absolute',
