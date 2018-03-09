@@ -20,30 +20,37 @@ var MaterialSwitch = createReactClass({
     inactiveButtonColor: PropTypes.string,
     inactiveButtonPressedColor: PropTypes.string,
     activeButtonColor: PropTypes.string,
+    undefinedButtonColor: PropTypes.string,
     activeButtonPressedColor: PropTypes.string,
+    undefinedButtonPressedColor: PropTypes.string,
     buttonShadow: ViewPropTypes.style,
     activeBackgroundColor: PropTypes.string,
     inactiveBackgroundColor: PropTypes.string,
+    undefinedBackgroundColor: PropTypes.string,
     buttonRadius: PropTypes.number,
     switchWidth: PropTypes.number,
     switchHeight: PropTypes.number,
     buttonContent: PropTypes.element,
+    buttonInactiveContent: PropTypes.element,
     enableSlide: PropTypes.bool,
     enableSlideDragging: PropTypes.bool,
     switchAnimationTime: PropTypes.number,
     onActivate: PropTypes.func,
     onDeactivate: PropTypes.func,
     onChangeState: PropTypes.func,
+    allowUndefined: PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
-      active: false,
+      active: undefined,
       style: {},
-      inactiveButtonColor: '#2196F3',
-      inactiveButtonPressedColor: '#42A5F5',
       activeButtonColor: '#FAFAFA',
+      inactiveButtonColor: '#2196F3',
+      undefinedButtonColor: 'white',
       activeButtonPressedColor: '#F5F5F5',
+      inactiveButtonPressedColor: '#42A5F5',
+      undefinedButtonPressedColor: 'grey',
       buttonShadow: {
         elevation: 3,
         shadowColor: '#000',
@@ -53,10 +60,12 @@ var MaterialSwitch = createReactClass({
       },
       activeBackgroundColor: 'rgba(255,255,255,.5)',
       inactiveBackgroundColor: 'rgba(0,0,0,.5)',
+      undefinedBackgroundColor: 'rgb(232,232,232)',
       buttonRadius: 15,
       switchWidth: 40,
       switchHeight: 20,
       buttonContent: null,
+      buttonInactiveContent: null,
       buttonOffset: 0,
       enableSlide: true,
       enableSlideDragging: true,
@@ -64,15 +73,21 @@ var MaterialSwitch = createReactClass({
       onActivate: function() {},
       onDeactivate: function() {},
       onChangeState: function() {},
+      allowUndefined: false,
     };
   },
 
   getInitialState() {
     var w = (this.props.switchWidth - Math.min(this.props.switchHeight, this.props.buttonRadius*2) - this.props.buttonOffset);
 
+    let activeState = this.props.active;
+    if (!this.props.allowUndefined && this.props.active === undefined) {
+      activeState = false;
+    }
+
     return {
       width: w,
-      state: this.props.active,
+      state: activeState,
       position: new Animated.Value(this.props.active? w : this.props.buttonOffset),
     };
   },
@@ -235,13 +250,36 @@ var MaterialSwitch = createReactClass({
     let panHandlers = this.props.enableSlideDragging ? this._panResponder.panHandlers : null
     let pressHandlers = !this.props.enableSlideDragging ? { onPress: () => this.toggle() } : null
 
+    let backgroundColor;
+    let backgroundColorButton;
+
+    switch(this.state.state) {
+      case undefined:
+         backgroundColor = this.props.undefinedBackgroundColor;
+         backgroundColorButton = this.state.pressed ?
+          this.props.undefinedButtonPressedColor :
+          this.props.undefinedButtonColor;
+        break;
+      case true:
+         backgroundColor = this.props.activeBackgroundColor;
+         backgroundColorButton = this.state.pressed ?
+          this.props.activeButtonPressedColor :
+          this.props.activeButtonColor;
+        break;
+      default:
+         backgroundColor = this.props.inactiveBackgroundColor;
+         backgroundColorButton = this.state.pressed ?
+          this.props.inactiveButtonPressedColor :
+          this.props.inactiveButtonColor;
+    }
+
     return (
       <View
         {...panHandlers}
         style={[{padding: this.padding, position: 'relative'}, this.props.style]}>
         <View
           style={{
-            backgroundColor: this.state.state ? this.props.activeBackgroundColor : this.props.inactiveBackgroundColor,
+            backgroundColor,
             height: this.props.switchHeight,
             width: this.props.switchWidth,
             borderRadius: this.props.switchHeight/2,
@@ -254,10 +292,7 @@ var MaterialSwitch = createReactClass({
             left: 1
           }}>
           <Animated.View style={[{
-              backgroundColor:
-                this.state.state
-                  ? (this.state.pressed? this.props.activeButtonPressedColor : this.props.activeButtonColor)
-                  : (this.state.pressed? this.props.inactiveButtonPressedColor : this.props.inactiveButtonColor),
+              backgroundColor: backgroundColorButton,
               height: this.props.buttonRadius*2,
               width: this.props.buttonRadius*2,
               borderRadius: this.props.buttonRadius,
@@ -271,7 +306,11 @@ var MaterialSwitch = createReactClass({
             },
             this.props.buttonShadow]}
           >
-            {this.props.buttonContent}
+            {this.state.state === undefined && this.props.buttonInactiveContent ?
+              (this.props.buttonInactiveContent)
+            :
+              (this.props.buttonContent)
+            }
           </Animated.View>
         </TouchableHighlight>
       </View>
