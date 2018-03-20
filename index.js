@@ -43,7 +43,7 @@ var MaterialSwitch = createReactClass({
 
   getDefaultProps() {
     return {
-      active: undefined,
+      active: null,
       style: {},
       activeButtonColor: '#FAFAFA',
       inactiveButtonColor: '#2196F3',
@@ -81,8 +81,12 @@ var MaterialSwitch = createReactClass({
     var w = (this.props.switchWidth - Math.min(this.props.switchHeight, this.props.buttonRadius*2) - this.props.buttonOffset);
 
     let activeState = this.props.active;
-    if (!this.props.allowUndefined && this.props.active === undefined) {
-      activeState = false;
+    if (this.props.active === undefined || this.props.active === null) {
+      if (!this.props.allowUndefined) {
+        activeState = false;
+      } else {
+        activeState = undefined;
+      }
     }
 
     return {
@@ -168,7 +172,7 @@ var MaterialSwitch = createReactClass({
   },
 
   componentWillReceiveProps: function(nextProps){
-    if(this.state.state !== nextProps.active){
+    if(this.state.state !== nextProps.active && nextProps.active !== null){
       nextProps.active ? this.activate() : this.deactivate()
     }
   },
