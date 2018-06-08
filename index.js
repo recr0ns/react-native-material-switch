@@ -43,7 +43,7 @@ var MaterialSwitch = createReactClass({
 
   getDefaultProps() {
     return {
-      active: null,
+      active: undefined,
       style: {},
       activeButtonColor: '#FAFAFA',
       inactiveButtonColor: '#2196F3',
@@ -81,11 +81,11 @@ var MaterialSwitch = createReactClass({
     var w = (this.props.switchWidth - Math.min(this.props.switchHeight, this.props.buttonRadius*2) - this.props.buttonOffset);
 
     let activeState = this.props.active;
-    if (this.props.active === undefined || this.props.active === null) {
+    if (this.props.active === null) {
       if (!this.props.allowUndefined) {
         activeState = false;
       } else {
-        activeState = undefined;
+        activeState = null;
       }
     }
 
@@ -172,8 +172,14 @@ var MaterialSwitch = createReactClass({
   },
 
   componentWillReceiveProps: function(nextProps){
-    if(this.state.state !== nextProps.active && nextProps.active !== null){
-      nextProps.active ? this.activate() : this.deactivate()
+    if(this.state.state !== nextProps.active){
+      if(nextProps.active) {
+        this.activate();
+      } else if(nextProps.active === false) {
+        this.deactivate();
+      } else { // null
+        this.toUndefined();
+      }
     }
   },
 
@@ -217,6 +223,18 @@ var MaterialSwitch = createReactClass({
     this.changeState(false);
   },
 
+  toUndefined() {
+    Animated.timing(
+      this.state.position,
+      {
+        toValue: this.props.buttonOffset,
+        duration: this.props.switchAnimationTime,
+        useNativeDriver: true,
+      }
+    ).start();
+    this.changeState(null);
+  },
+
   changeState(state) {
     var callHandlers = this.start.state != state;
     setTimeout(() => {
@@ -231,7 +249,7 @@ var MaterialSwitch = createReactClass({
     var state = this.state.state;
     if (state) {
       this.props.onActivate();
-    } else {
+    } else if (state === false) {
       this.props.onDeactivate();
     }
     this.props.onChangeState(state);
@@ -258,7 +276,7 @@ var MaterialSwitch = createReactClass({
     let backgroundColorButton;
 
     switch(this.state.state) {
-      case undefined:
+      case null:
          backgroundColor = this.props.undefinedBackgroundColor;
          backgroundColorButton = this.state.pressed ?
           this.props.undefinedButtonPressedColor :
@@ -310,7 +328,7 @@ var MaterialSwitch = createReactClass({
             },
             this.props.buttonShadow]}
           >
-            {this.state.state === undefined && this.props.buttonInactiveContent ?
+            {this.state.state === null && this.props.buttonInactiveContent ?
               (this.props.buttonInactiveContent)
             :
               (this.props.buttonContent)
